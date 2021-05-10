@@ -1,33 +1,64 @@
 ﻿@page "/"
+@*<h1>Pizza</h1>
+    <div>
+        <h2> Pizza: @Pizza.Nome </h2>
+        <h2> Pizza: @Pizza.DataCadastro.ToString("dd MM yyyy") </h2>
+    </div>*@
 
 
-
-<h1>Pizza</h1>
-<div>
-    <h2> Pizza: @Pizza.Nome </h2>
-    <h2> Pizza: @Pizza.DataCadastro.ToString("dd MM yyyy") </h2>
-</div>
 <hr />
 <h1>Pizzas(foreach)</h1>
 @foreach (var produto in GetProdutos())
 {
-    <div>
-        <h2> Pizza: @produto.Nome </h2>
-        <h2> Data: @produto.DataCadastro.ToString("dd MM yyyy") </h2>
-    </div>
+
+
+    @if (produto.Nome.Contains("Calabreza"))
+    {
+        <h3>Pizza de Calabreza com desconto de 20%</h3>
+    }
+    <h2> Pizza: @produto.Nome </h2>
+    <h2> Data: @produto.DataCadastro.ToString("dd MM yyyy") </h2>
+
 }
 <hr />
 <h1>Pizzas(for)</h1>
 @for (var i = 0; i < produtos.Count; i++)
 {
-    <div>
-        <h2>@(i+1)- Pizza: @produtos[i].Nome </h2>
-        <h2>    Data: @produtos[i].DataCadastro.ToString("dd MM yyyy") </h2>
-    </div>
+    @if (i == produtos.Count - 1)
+    {
+        <h3>Este é o último Produto</h3>
+    }
+    <ul>
+        <li>
+            <h2>@(i+1)- Pizza: @produtos[i].Nome </h2>
+            <h2>    Data: @produtos[i].DataCadastro.ToString("dd MM yyyy") </h2>
+        </li>
+    </ul>
 }
+
+@switch (dia)
+{
+    case "Monday":
+        mensagem = "Este é o segundo dia da semana.";
+        break;
+    case "Thursday":
+        mensagem = "Falta um dia para sexta.";
+        break;
+    case "Friday":
+        mensagem = "Amanhã é sábado!.";
+        break;
+    default:
+        mensagem = "Hoje é" + dia +".";
+        break;
+
+}
+<p><h1>@mensagem</h1></p>
 
 
 @code{
+
+    string dia = DateTime.Now.DayOfWeek.ToString();
+    string mensagem = "";
 
     public Produto Pizza { get { return GetProduto(); } }
 
